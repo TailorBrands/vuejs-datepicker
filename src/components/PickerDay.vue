@@ -24,6 +24,7 @@
           @click="selectDate(day)">{{ day.date }}</span>
     </div>
   </div>
+  <slot name="calendarFooter"></slot>
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'

@@ -18,6 +18,7 @@
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
       @click.stop="selectMonth(month)">{{ month.month }}</span>
   </div>
+  <slot name="calendarFooter"></slot>
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
