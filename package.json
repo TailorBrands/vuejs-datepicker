@@ -1,6 +1,6 @@
 {
   "name": "vuejs-datepicker-tailor",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
