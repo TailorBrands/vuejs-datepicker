@@ -1,5 +1,5 @@
 /*!
- * vuejs-datepicker v1.3.3
+ * vuejs-datepicker v1.3.4
  * (c) 2016-2018 Charlie Kassel
  * Released under the MIT License.
  */
@@ -837,6 +837,8 @@ var PickerMonth = {render: function(){var _vm=this;var _h=_vm.$createElement;var
 ;
 
 (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=""; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
+
+
 
 
 
