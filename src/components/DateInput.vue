@@ -1,13 +1,11 @@
 <template>
   <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
-    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
-      <span :class="{'input-group-text' : bootstrapStyling}">
-        <i :class="calendarButtonIcon">
-          {{ calendarButtonIconContent }}
-          <span v-if="!calendarButtonIcon">&hellip;</span>
-        </i>
-      </span>
+    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
+      <i :class="calendarButtonIcon">
+        {{ calendarButtonIconContent }}
+        <span v-if="!calendarButtonIcon">&hellip;</span>
+      </i>
     </span>
     <!-- Input -->
     <input
@@ -25,21 +23,19 @@
       @click="showCalendar"
       @keydown="allowTyping"
       @keyup="parseTypedDate"
-      @blur="inputBlurred"
-      autocomplete="off">
+      @blur="inputBlurred">
     <!-- Clear Button -->
-    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
-      <span :class="{'input-group-text' : bootstrapStyling}">
-        <i :class="clearButtonIcon">
-          <span v-if="!clearButtonIcon">&times;</span>
-        </i>
-      </span>
+    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
+      <i :class="clearButtonIcon">
+        <span v-if="!clearButtonIcon">&times;</span>
+      </i>
     </span>
     <slot name="afterDateInput"></slot>
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import DateUtils from '../utils/DateUtils'
+
 export default {
   props: {
     selectedDate: Date,
@@ -63,15 +59,12 @@ export default {
     range: Boolean,
     required: Boolean,
     typeable: Boolean,
-    bootstrapStyling: Boolean,
-    useUtc: Boolean
+    bootstrapStyling: Boolean
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
       input: null,
-      typedDate: false,
-      utils: constructedDateUtils
+      typedDate: false
     }
   },
   computed: {
@@ -91,7 +84,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : this.formatDate(this.selectedDate)
     },
 
     computedInputClass () {

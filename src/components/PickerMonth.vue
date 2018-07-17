@@ -3,14 +3,14 @@
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
-        @click="isRtl ? nextYear() : previousYear()"
+        @click="previousYear"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
+        :class="{ 'disabled' : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
       <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
-        @click="isRtl ? previousYear() : nextYear()"
+        @click="nextYear"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{ 'disabled' : isNextYearDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span class="cell month"
       v-for="month in months"
@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     showMonthView: Boolean,
@@ -31,32 +31,22 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
-    isRtl: Boolean,
-    allowedToShowView: Function,
-    useUtc: Boolean
-  },
-  data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
-    return {
-      utils: constructedDateUtils
-    }
+    allowedToShowView: Function
   },
   computed: {
     months () {
       const d = this.pageDate
       let months = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
-        : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
+      let dObj = new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 12; i++) {
         months.push({
-          month: this.utils.getMonthName(i, this.translation.months),
+          month: DateUtils.getMonthName(i, this.translation.months),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedMonth(dObj),
           isDisabled: this.isDisabledMonth(dObj)
         })
-        this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1)
+        dObj.setMonth(dObj.getMonth() + 1)
       }
       return months
     },
@@ -66,25 +56,7 @@ export default {
      */
     pageYearName () {
       const yearSuffix = this.translation.yearSuffix
-      return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
-    },
-    /**
-     * Is the left hand navigation disabled
-     * @return {Boolean}
-     */
-    isLeftNavDisabled () {
-      return this.isRtl
-        ? this.isNextYearDisabled(this.pageTimestamp)
-        : this.isPreviousYearDisabled(this.pageTimestamp)
-    },
-    /**
-     * Is the right hand navigation disabled
-     * @return {Boolean}
-     */
-    isRightNavDisabled () {
-      return this.isRtl
-        ? this.isPreviousYearDisabled(this.pageTimestamp)
-        : this.isNextYearDisabled(this.pageTimestamp)
+      return `${this.pageDate.getFullYear()}${yearSuffix}`
     }
   },
   methods: {
@@ -104,7 +76,7 @@ export default {
      */
     changeYear (incrementBy) {
       let date = this.pageDate
-      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
+      date.setYear(date.getFullYear() + incrementBy)
       this.$emit('changedYear', date)
     },
     /**
@@ -123,7 +95,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(this.pageDate)
+      return this.disabledDates.to.getFullYear() >= this.pageDate.getFullYear()
     },
     /**
      * Increments the year
@@ -141,7 +113,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(this.pageDate)
+      return this.disabledDates.from.getFullYear() <= this.pageDate.getFullYear()
     },
     /**
      * Emits an event that shows the year calendar
@@ -156,8 +128,8 @@ export default {
      */
     isSelectedMonth (date) {
       return (this.selectedDate &&
-        this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date) &&
-        this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date))
+        this.selectedDate.getFullYear() === date.getFullYear() &&
+        this.selectedDate.getMonth() === date.getMonth())
     },
     /**
      * Whether a month is disabled
@@ -173,8 +145,8 @@ export default {
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
         if (
-          (this.utils.getMonth(date) < this.utils.getMonth(this.disabledDates.to) && this.utils.getFullYear(date) <= this.utils.getFullYear(this.disabledDates.to)) ||
-          this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)
+          (date.getMonth() < this.disabledDates.to.getMonth() && date.getFullYear() <= this.disabledDates.to.getFullYear()) ||
+          date.getFullYear() < this.disabledDates.to.getFullYear()
         ) {
           disabledDates = true
         }
@@ -182,8 +154,8 @@ export default {
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
         if (
           this.disabledDates.from &&
-          (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from)) ||
-          this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)
+          (date.getMonth() > this.disabledDates.from.getMonth() && date.getFullYear() >= this.disabledDates.from.getFullYear()) ||
+          date.getFullYear() > this.disabledDates.from.getFullYear()
         ) {
           disabledDates = true
         }
