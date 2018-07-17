@@ -23,6 +23,11 @@
           :class="dayClasses(day)"
           @click="selectDate(day)">{{ day.date }}</span>
     </div>
+    <div class="datepicker-controllers sf">
+      <div @click="selectPeriod('today')" v-bind:class="{ active: selectedRange === 'today' }">Today</div>
+      <div @click="selectPeriod('week')" v-bind:class="{ active: selectedRange === 'week' }">Week</div>
+      <div @click="selectPeriod('month')" v-bind:class="{ active: selectedRange === 'month' }">Month</div>
+    </div>
   </div>
 </template>
 <script>
@@ -127,6 +132,9 @@ export default {
         return false
       }
       this.$emit('selectDate', date)
+    },
+    selectPeriod (date) {
+      this.$emit('selectPeriod', date)
     },
     /**
      * @return {Number}

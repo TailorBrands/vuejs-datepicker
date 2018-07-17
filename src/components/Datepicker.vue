@@ -49,6 +49,7 @@
       :mondayFirst="mondayFirst"
       @changedMonth="setPageDate"
       @selectDate="selectDate"
+      @selectPeriod="selectPeriod"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="$emit('selectedDisabled')">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
@@ -94,6 +95,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
+import moment from 'moment'
 export default {
   components: {
     DateInput,
@@ -372,6 +374,52 @@ export default {
       this.$emit('input', null)
       this.$emit('cleared')
     },
+    /**
+     * @param {String} period
+     */
+    selectPeriod (period) {
+      const range = this.selectedRange;
+      let from = moment();
+      let to = moment();
+      switch (range) {
+        case 'today':
+          from = moment();
+          to = moment();
+          this.selectedRange = 'today';
+          break;
+        case 'week':
+          from = moment().startOf('week');
+          to = moment().endOf('week');
+          this.selectedRange = 'week';
+          break;
+        case 'month':
+          from = moment().startOf('month');
+          to = moment().endOf('month');
+          this.selectedRange = 'month';
+          break;
+        default:
+          from = moment();
+          to = moment();
+          this.selectedRange = 'today';
+          break;
+      }
+
+      this.$set(range, 'from', from.toDate());
+      this.$set(range, 'to', to.toDate());
+
+      if (!this.isInline && !this.range) {
+        this.close(true)
+      }
+      this.resetTypedDate = new Date()
+
+      this.selectedDate = range.from
+      this.setPageDate(range.from)
+      this.$emit('selected', to.toDate())
+      this.$emit('input', range)
+      this.$emit('start', range.from)
+      this.$emit('end', range.to)
+    },
+
     /**
      * @param {Object} date
      */
