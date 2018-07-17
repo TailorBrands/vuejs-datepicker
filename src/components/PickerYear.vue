@@ -15,7 +15,9 @@
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
       @click.stop="selectYear(year)">{{ year.year }}</span>
   </div>
-  <slot name="calendarFooter"></slot>
+  <div>
+    <slot name="calendarFooter"></slot>
+  </div>
 </template>
 <script>
 export default {
