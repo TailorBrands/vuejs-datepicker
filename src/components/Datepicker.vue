@@ -378,34 +378,34 @@ export default {
      * @param {String} period
      */
     selectPeriod (period) {
-      const range = this.selectedRange;
-      let from = moment();
-      let to = moment();
+      const range = this.selectedRange
+      let from = moment()
+      let to = moment()
       switch (range) {
         case 'today':
-          from = moment();
-          to = moment();
-          this.selectedRange = 'today';
-          break;
+          from = moment()
+          to = moment()
+          this.selectedRange = 'today'
+          break
         case 'week':
-          from = moment().startOf('week');
-          to = moment().endOf('week');
-          this.selectedRange = 'week';
-          break;
+          from = moment().startOf('week')
+          to = moment().endOf('week')
+          this.selectedRange = 'week'
+          break
         case 'month':
-          from = moment().startOf('month');
-          to = moment().endOf('month');
-          this.selectedRange = 'month';
-          break;
+          from = moment().startOf('month')
+          to = moment().endOf('month')
+          this.selectedRange = 'month'
+          break
         default:
-          from = moment();
-          to = moment();
-          this.selectedRange = 'today';
-          break;
+          from = moment()
+          to = moment()
+          this.selectedRange = 'today'
+          break
       }
 
-      this.$set(range, 'from', from.toDate());
-      this.$set(range, 'to', to.toDate());
+      this.$set(range, 'from', from.toDate())
+      this.$set(range, 'to', to.toDate())
 
       if (!this.isInline && !this.range) {
         this.close(true)
