@@ -1,6 +1,7 @@
 <template>
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" :style="calendarStyle" @mousedown.prevent>
-    <slot name="beforeCalendarHeader"></slot>
+    <div><slot name="beforeCalendarHeader"></slot></div>
+    <div>
     <header>
       <span
         @click="previousYear"
@@ -17,8 +18,9 @@
       :key="month.timestamp"
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
       @click.stop="selectMonth(month)">{{ month.month }}</span>
+    </div>
+    <div><slot name="calendarFooter"></slot></div>
   </div>
-  <slot name="calendarFooter"></slot>
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'

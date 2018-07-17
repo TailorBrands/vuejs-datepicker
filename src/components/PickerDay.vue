@@ -1,6 +1,7 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
-    <slot name="beforeCalendarHeader"></slot>
+<div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div><slot name="beforeCalendarHeader"></slot></div>
+  <div>
     <header>
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
@@ -15,16 +16,17 @@
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
       <template v-if="blankDays > 0">
-        <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+      <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><span class="cell day"
-          v-for="day in days"
-          :key="day.timestamp"
-          :class="dayClasses(day)"
-          @click="selectDate(day)">{{ day.date }}</span>
+               v-for="day in days"
+               :key="day.timestamp"
+               :class="dayClasses(day)"
+               @click="selectDate(day)">{{ day.date }}</span>
     </div>
   </div>
-  <slot name="calendarFooter"></slot>
+  <div><slot name="calendarFooter"></slot></div>
+</div>
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
