@@ -1,12 +1,13 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
-    <slot name="beforeCalendarHeader"></slot>
+<div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
+  <div><slot name="beforeCalendarHeader"></slot></div>
+  <div>
     <header>
       <span @click="previousDecade" class="prev"
-        :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
+            :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
       <span>{{ getPageDecade }}</span>
       <span @click="nextDecade" class="next"
-        :class="{ 'disabled' : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
+            :class="{ 'disabled' : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span
       class="cell year"
@@ -14,9 +15,9 @@
       :key="year.timestamp"
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
       @click.stop="selectYear(year)">{{ year.year }}</span>
-
-    <slot name="calendarFooter"></slot>
   </div>
+  <div><slot name="calendarFooter"></slot></div>
+</div>
 </template>
 <script>
 export default {
