@@ -1,8 +1,6 @@
 <template>
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
-    <div>
-      <slot name="beforeCalendarHeader"></slot>
-    </div>
+    <slot name="beforeCalendarHeader"></slot>
     <header>
       <span @click="previousDecade" class="prev"
         :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
@@ -16,8 +14,7 @@
       :key="year.timestamp"
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
       @click.stop="selectYear(year)">{{ year.year }}</span>
-  </div>
-  <div>
+
     <slot name="calendarFooter"></slot>
   </div>
 </template>
