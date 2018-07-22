@@ -474,8 +474,6 @@ export default {
       this.$emit('input', range)
       this.$emit('start', range.from)
       this.$emit('end', range.to)
-
-      console.dir(range);
     },
     /**
      * @param {Object} year
