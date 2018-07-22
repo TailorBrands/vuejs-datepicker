@@ -1,5 +1,5 @@
 /*!
- * vuejs-datepicker v1.4.1
+ * vuejs-datepicker v1.4.2
  * (c) 2016-2018 Charlie Kassel
  * Released under the MIT License.
  */
@@ -480,6 +480,7 @@
     },
     methods: {
       selectDateRange: function selectDateRange (range) {
+        this.selectedRange = range;
         this.$emit('selectRangeController', range);
       },
       selectDate: function selectDate (date) {
