@@ -32,7 +32,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "prepublishOnly": "yarn build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.22.2"
+  },
   "peerDependencies": {
     "vue": "^2.3.0"
   },

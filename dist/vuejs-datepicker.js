@@ -1,5 +1,5 @@
 /*!
- * vuejs-datepicker v1.3.2
+ * vuejs-datepicker v1.4.0
  * (c) 2016-2018 Charlie Kassel
  * Released under the MIT License.
  */

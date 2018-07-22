@@ -211,7 +211,7 @@
 
     <div class="example">
       <h3>Inline datepicker</h3>
-      <datepicker :inline="true"></datepicker>
+      <datepicker :range="true" :display-controllers="true" :inline="true"></datepicker>
       <code>
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>

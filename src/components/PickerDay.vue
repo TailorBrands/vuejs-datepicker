@@ -23,6 +23,12 @@
           :class="dayClasses(day)"
           @click="selectDate(day)">{{ day.date }}</span>
     </div>
+
+    <div class="datepicker-controllers" v-if="displayControllers">
+      <div @click="selectDateRange('today')" v-bind:class="{ active: selectedRange === 'today' }">Today</div>
+      <div @click="selectDateRange('week')" v-bind:class="{ active: selectedRange === 'week' }">Week</div>
+      <div @click="selectDateRange('month')" v-bind:class="{ active: selectedRange === 'month' }">Month</div>
+    </div>
   </div>
 </template>
 <script>
@@ -34,6 +40,7 @@ export default {
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
+    displayControllers: Boolean,
     allowedToShowView: Function,
     disabledDates: Object,
     highlighted: Object,
@@ -42,6 +49,11 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean
+  },
+  data () {
+    return {
+      selectedRange: 'week'
+    }
   },
   computed: {
     /**
@@ -121,6 +133,10 @@ export default {
     }
   },
   methods: {
+    selectDateRange (range) {
+      console.dir(range);
+      this.$emit('selectRangeController', range)
+    },
     selectDate (date) {
       if (date.isDisabled) {
         this.$emit('selectedDisabled', date)

@@ -38,6 +38,7 @@
       :selectedDate="selectedDate"
       :showDayView="showDayView"
       :fullMonthName="fullMonthName"
+      :displayControllers="displayControllers"
       :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDatesComputed"
       :highlighted="highlightedComputed"
@@ -49,6 +50,7 @@
       :mondayFirst="mondayFirst"
       @changedMonth="setPageDate"
       @selectDate="selectDate"
+      @selectRangeController="selectRangeController"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="$emit('selectedDisabled')">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
@@ -94,6 +96,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
+import moment from 'moment'
 export default {
   components: {
     DateInput,
@@ -124,6 +127,7 @@ export default {
       }
     },
     fullMonthName: Boolean,
+    displayControllers: Boolean,
     disabledDates: Object,
     highlighted: Object,
     placeholder: String,
@@ -422,6 +426,60 @@ export default {
       this.$emit('input', range)
       this.$emit('start', range.from)
       this.$emit('end', range.to)
+    },
+
+    /**
+     * @param {Object} rangeString
+     */
+    selectRangeController (rangeString) {
+      // const date = new Date(timestamp)
+      const range = this.selectedRange
+
+
+      let fromDate = null;
+      let toDate = null;
+      switch (rangeString) {
+        case 'today':
+          fromDate = moment().toDate();
+          toDate = moment().toDate();
+          break;
+        case 'week':
+          fromDate = moment().startOf('week').toDate();
+          toDate = moment().endOf('week').toDate();
+          break;
+        case 'month':
+          fromDate = moment().startOf('month').toDate();
+          toDate = moment().endOf('month').toDate();
+          break;
+        default:
+          fromDate = moment().toDate();
+          toDate = moment().toDate();
+          break;
+      }
+
+      console.dir(fromDate);
+      console.dir(toDate);
+
+      this.$set(range, 'from', fromDate)
+      this.$set(range, 'to', toDate)
+      //
+      // if (range.from && range.to) {
+      //   this.$set(range, 'from', date)
+      //   this.$set(range, 'to', null)
+      // } else if (!range.from) {
+      //   this.$set(range, 'from', date)
+      // } else if (!range.to) {
+      //   this.$set(range, 'to', date)
+      // }
+
+      this.selectedDate = range.from
+      this.setPageDate(range.from)
+      this.$emit('selected', toDate)
+      this.$emit('input', range)
+      this.$emit('start', range.from)
+      this.$emit('end', range.to)
+
+      console.dir(range);
     },
     /**
      * @param {Object} year
