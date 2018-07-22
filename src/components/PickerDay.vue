@@ -134,7 +134,6 @@ export default {
   },
   methods: {
     selectDateRange (range) {
-      console.dir(range);
       this.$emit('selectRangeController', range)
     },
     selectDate (date) {

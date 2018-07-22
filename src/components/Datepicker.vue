@@ -435,30 +435,26 @@ export default {
       // const date = new Date(timestamp)
       const range = this.selectedRange
 
-
-      let fromDate = null;
-      let toDate = null;
+      let fromDate = null
+      let toDate = null
       switch (rangeString) {
         case 'today':
-          fromDate = moment().toDate();
-          toDate = moment().toDate();
-          break;
+          fromDate = moment().toDate()
+          toDate = moment().toDate()
+          break
         case 'week':
-          fromDate = moment().startOf('week').toDate();
-          toDate = moment().endOf('week').toDate();
-          break;
+          fromDate = moment().startOf('week').toDate()
+          toDate = moment().endOf('week').toDate()
+          break
         case 'month':
-          fromDate = moment().startOf('month').toDate();
-          toDate = moment().endOf('month').toDate();
-          break;
+          fromDate = moment().startOf('month').toDate()
+          toDate = moment().endOf('month').toDate()
+          break
         default:
-          fromDate = moment().toDate();
-          toDate = moment().toDate();
-          break;
+          fromDate = moment().toDate()
+          toDate = moment().toDate()
+          break
       }
-
-      console.dir(fromDate);
-      console.dir(toDate);
 
       this.$set(range, 'from', fromDate)
       this.$set(range, 'to', toDate)
