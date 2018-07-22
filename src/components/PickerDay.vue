@@ -134,6 +134,7 @@ export default {
   },
   methods: {
     selectDateRange (range) {
+      this.selectedRange = range
       this.$emit('selectRangeController', range)
     },
     selectDate (date) {
