@@ -38,6 +38,7 @@ import ClickOutside from 'vue-click-outside'
 export default {
   props: {
     showDayView: Boolean,
+    inline: Boolean,
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
@@ -354,7 +355,7 @@ export default {
       return typeof prop !== 'undefined' && prop
     },
     close () {
-      if (this.showDayView) {
+      if (this.showDayView && !this.inline) {
         this.$emit('closeCalendar')
       }
     }

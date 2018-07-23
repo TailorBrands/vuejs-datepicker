@@ -37,6 +37,7 @@
       :pageDate="pageDate"
       :selectedDate="selectedDate"
       :showDayView="showDayView"
+      :inline="inline"
       :fullMonthName="fullMonthName"
       :displayControllers="displayControllers"
       :allowedToShowView="allowedToShowView"
