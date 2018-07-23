@@ -2,7 +2,7 @@
   <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
     <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
-      <i :class="calendarButtonIcon">
+      <i :class="calendarButtonIcon"  v-click-outside="inputBlurred">
         {{ calendarButtonIconContent }}
         <span v-if="!calendarButtonIcon">&hellip;</span>
       </i>
@@ -35,6 +35,7 @@
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
+import ClickOutside from 'vue-click-outside'
 
 export default {
   props: {
@@ -167,6 +168,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
+      console.dir('outtttt')
       if (this.typeable && isNaN(Date.parse(this.input.value))) {
         this.clearDate()
         this.input.value = null
@@ -184,7 +186,8 @@ export default {
   },
   mounted () {
     this.input = this.$el.querySelector('input')
-  }
+  },
+  directives: {ClickOutside}
 }
 // eslint-disable-next-line
 ;
