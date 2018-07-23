@@ -216,16 +216,7 @@ export default {
     },
 
     disabledDatesComputed () {
-      let disabled = {to: this.selectedRange.from}
-
-      if (this.range) {
-        if (this.selectedRange.from && this.selectedRange.to) {
-          disabled.to = null
-        }
-        return Object.assign({}, this.disabledDates, disabled)
-      } else {
-        return this.disabledDates
-      }
+      return this.disabledDates
     },
 
     highlightedComputed () {
