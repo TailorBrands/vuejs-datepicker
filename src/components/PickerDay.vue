@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent v-click-outside="close">
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -33,6 +33,8 @@
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
+import ClickOutside from 'vue-click-outside'
+
 export default {
   props: {
     showDayView: Boolean,
@@ -42,6 +44,7 @@ export default {
     fullMonthName: Boolean,
     displayControllers: Boolean,
     allowedToShowView: Function,
+    closeCalendar: Function,
     disabledDates: Object,
     highlighted: Object,
     calendarClass: [String, Object, Array],
@@ -349,8 +352,14 @@ export default {
      */
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
+    },
+    close () {
+      if (this.showDayView) {
+        this.$emit('closeCalendar')
+      }
     }
-  }
+  },
+  directives: {ClickOutside}
 }
 // eslint-disable-next-line
 ;

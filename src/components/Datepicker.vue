@@ -51,6 +51,7 @@
       @changedMonth="setPageDate"
       @selectDate="selectDate"
       @selectRangeController="selectRangeController"
+      @closeCalendar="close"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="$emit('selectedDisabled')">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
